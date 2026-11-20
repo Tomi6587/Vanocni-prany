@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b24">
+  <title>Vánoční přání 🎄</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --green:#102b24; --green2:#183c31; --red:#b93636; --cream:#fffaf0; --gold:#e8c879; }
+    * { box-sizing:border-box }
+    body {
+      margin:0; min-height:100vh; color:var(--cream); font-family:"DM Sans",sans-serif;
+      background: radial-gradient(ellipse at 50% 0%, #285341 0%, #17382e 42%, #0b211c 100%);
+      display:grid; place-items:center; padding:32px 16px; overflow-x:hidden; position:relative;
+    }
+    body::before {
+      content:""; position:fixed; inset:0; pointer-events:none; opacity:.48;
+      background-image: radial-gradient(2px 2px at 20px 30px,#fff 98%,transparent),
+        radial-gradient(2px 2px at 80px 120px,#fff 98%,transparent),
+        radial-gradient(1.5px 1.5px at 160px 70px,#fff 98%,transparent),
+        radial-gradient(2px 2px at 220px 180px,#fff 98%,transparent);
+      background-size:260px 220px; animation:snow 18s linear infinite;
+    }
+    @keyframes snow { to { background-position:0 220px } }
+    .lights { position:fixed; top:0; left:0; right:0; display:flex; justify-content:space-around; padding:0 5%; pointer-events:none }
+    .lights span { width:9px; height:14px; border-radius:50% 50% 45% 45%; background:#f5d77d; box-shadow:0 0 15px currentColor; color:#f5d77d; margin-top:0; position:relative }
+    .lights span:nth-child(3n) { background:#e45b56;color:#e45b56 }
+    .lights span:nth-child(3n+1) { background:#8fc6a3;color:#8fc6a3 }
+    .lights span::before { content:""; position:absolute; width:1px;height:10px;background:#c5b99b;left:4px;top:-10px }
+    .card {
+      width:min(100%,560px); background:rgba(255,250,240,.97); color:#24352c;
+      border:1px solid rgba(232,200,121,.75); border-radius:25px; padding:clamp(25px,6vw,48px);
+      box-shadow:0 25px 90px #0006; position:relative; z-index:1; text-align:center;
+    }
+    .icon { font-size:48px; margin-bottom:8px; filter:drop-shadow(0 5px 5px #0002) }
+    .eyebrow { color:#a33b35; text-transform:uppercase; letter-spacing:3px; font-size:11px; font-weight:700 }
+    h1 { font-family:"Playfair Display",serif; color:#17382e; font-size:clamp(34px,7vw,48px); line-height:1.12; margin:12px 0 }
+    .intro { color:#68746b; font-size:15px; line-height:1.6; margin:0 auto 28px; max-width:390px }
+    label { display:block; text-align:left; font-weight:700; font-size:13px; margin:18px 0 8px; color:#304238 }
+    input, textarea {
+      width:100%; border:1px solid #d9ded4; background:#fff; border-radius:12px;
+      padding:14px 15px; font:inherit; font-size:15px; color:#26372d; outline:none; transition:.2s;
+    }
+    input:focus, textarea:focus { border-color:#39745b; box-shadow:0 0 0 3px #39745b20 }
+    textarea { min-height:145px; resize:vertical }
+    input::placeholder, textarea::placeholder { color:#a4aca5 }
+    button {
+      width:100%; border:0; border-radius:12px; padding:15px 20px; margin-top:24px;
+      background:linear-gradient(135deg,#bd4140,#9d292f); color:white; font:700 15px "DM Sans",sans-serif;
+      cursor:pointer; box-shadow:0 7px 0 #76252a; transition:transform .15s,filter .15s;
+    }
+    button:hover { filter:brightness(1.08); transform:translateY(-1px) }
+    button:active { transform:translateY(3px); box-shadow:0 4px 0 #76252a }
+    button:disabled { opacity:.65; cursor:wait; transform:none }
+    .suggestions { text-align:left; background:#f2f5ed; border:1px solid #e0e8dc; border-radius:15px; padding:15px; margin:0 0 20px }
+    .suggestions-heading { color:#244b38; font-weight:700; font-size:13px }
+    .suggestions-note { color:#788379; font-size:12px; margin:5px 0 12px }
+    .chips { display:flex; flex-wrap:wrap; gap:8px }
+    .chip { width:auto; margin:0; padding:8px 11px; border:1px solid #cbd9ca; border-radius:999px; background:#fff; color:#315440; box-shadow:none; font:600 12px "DM Sans",sans-serif }
+    .chip:hover { background:#e5efe3; filter:none; transform:translateY(-1px) }
+    .message { display:none; margin-top:18px; border-radius:12px; padding:14px; font-size:14px; line-height:1.5 }
+    .message.success { display:block; background:#e6f4e9; color:#245c36 }
+    .message.error { display:block; background:#fbe9e7; color:#96352e }
+    .footer { color:#b8c9bd; font-size:12px; margin-top:24px; position:relative; z-index:1; text-align:center }
+    .footer span { color:var(--gold) }
+    .hp { position:absolute; left:-5000px; }
+  </style>
+</head>
+<body>
+  <div class="lights" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <main class="card">
+    <div class="icon" aria-hidden="true">🎄</div>
+    <div class="eyebrow">Kouzlo Vánoc</div>
+    <h1>Co si přeješ<br>k Vánocům?</h1>
+    <p class="intro">Napiš své vánoční přání a pošli ho e-mailem. Třeba se letos splní! ✨</p>
+
+    <section class="suggestions" aria-label="Tipy na vánoční dárky">
+      <div class="suggestions-heading">🎁 Inspirace na přání pro rok 2026</div>
+      <p class="suggestions-note">Klikni na tip a přidá se do tvého přání.</p>
+      <div class="chips">
+        <button class="chip" type="button" data-wish="Nike ponožky">Nike ponožky</button>
+        <button class="chip" type="button" data-wish="GTA 6">GTA 6</button>
+        <button class="chip" type="button" data-wish="EA SPORTS FC 27">FC 27</button>
+        <button class="chip" type="button" data-wish="V-Bucks">V-Bucks</button>
+        <button class="chip" type="button" data-wish="Bezdrátová sluchátka">Bezdrátová sluchátka</button>
+        <button class="chip" type="button" data-wish="Herní příslušenství">Herní příslušenství</button>
+        <button class="chip" type="button" data-wish="LEGO">LEGO</button>
+        <button class="chip" type="button" data-wish="Dárkový poukaz">Dárkový poukaz</button>
+      </div>
+    </section>
+
+    <form id="wishForm">
+      <label for="email">E-mail, na který se má přání odeslat</label>
+      <input id="email" name="email" type="email" placeholder="napriklad@email.cz" autocomplete="email" required>
+      <label for="wish">Tvoje vánoční přání</label>
+      <textarea id="wish" name="wish" placeholder="K Vánocům bych si přál/a..." maxlength="5000" required></textarea>
+      <div class="hp" aria-hidden="true">
+        <label for="website">Nevyplňujte</label>
+        <input id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <button id="submitBtn" type="submit">🎁 Odeslat přání</button>
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+    </form>
+  </main>
+  <div class="footer">Vyrobeno s <span>♥</span> a vánoční náladou</div>
+
+  <script>
+    const form = document.getElementById('wishForm');
+    const button = document.getElementById('submitBtn');
+    const message = document.getElementById('message');
+    const wishField = document.getElementById('wish');
+
+    document.querySelectorAll('.chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const suggestion = chip.dataset.wish;
+        const current = wishField.value.trim();
+        const entries = current ? current.split(/,\\s*|\\n/).map(item => item.trim()) : [];
+        if (!entries.includes(suggestion)) {
+          wishField.value = current ? `${current}, ${suggestion}` : suggestion;
+        }
+        wishField.focus();
+      });
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      message.className = 'message';
+      message.textContent = '';
+
+      const email = document.getElementById('email').value.trim();
+      const wish = document.getElementById('wish').value.trim();
+      if (!email || !wish) return;
+
+      button.disabled = true;
+      button.textContent = 'Odesílám...';
+
+      try {
+        const response = await fetch('/.netlify/functions/send-wish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            wish,
+            website: document.getElementById('website').value
+          })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || 'E-mail se nepodařilo odeslat. Zkus to prosím znovu.');
+        message.className = 'message success';
+        message.textContent = '🎄 Přání bylo úspěšně odesláno! Krásné Vánoce!';
+        form.reset();
+      } catch (error) {
+        message.className = 'message error';
+        message.textContent = error.message || 'Něco se nepovedlo. Zkus to prosím znovu.';
+      } finally {
+        button.disabled = false;
+        button.textContent = '🎁 Odeslat přání';
+      }
+    });
+  </script>
+</body>
+</html>
